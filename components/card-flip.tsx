@@ -171,7 +171,7 @@ export default function CardFlip({
             </div>
 
           <div
-            className={`relative before:content-[''] before:absolute before:inset-x-0 before:top-[-7px] before:h-px before:bg-zinc-200 dark:before:bg-zinc-800`}
+            className={`relative before:content-[''] before:absolute before:inset-x-0 before:top-[-7px] before:h-px before:bg-zinc-200 dark:before:bg-zinc-800 ${isHome ? 'pt-2' : ''}`}
             style={{ marginTop: separatorMarginTopPx !== undefined ? separatorMarginTopPx : 12 }}
           >
             {slug ? (

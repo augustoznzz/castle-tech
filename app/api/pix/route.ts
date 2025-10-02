@@ -8,8 +8,9 @@ export async function POST(req: NextRequest) {
     const { orderId, amount } = await req.json()
 
     // You could validate orderId/amount and persist an order as PENDING here
-    // For now, we return the provided static Pix link/code.
-    const infinityPayCode = '00020101021226840014BR.GOV.BCB.PIX01362e69b3e8-28f0-46a7-b674-e6676de0d9ac0222Pagamento augusto_zuan52040000530398654071200.005802BR5922AUGUSTO PIRES ZUANAZZI6013FLORIANOPOLIS62290525QRCC1CxvX4PoRwsT8hniC4b8h6304E8B7'
+    // For now, we return the provided Nubank Pix link/code.
+    const checkoutUrl = 'https://nubank.com.br/cobrar/1je4n0/68de9a45-1626-47c4-8fdb-234cb132e504'
+    const pixCode = '00020126580014BR.GOV.BCB.PIX0136c72bec21-d9f5-441c-ae7b-a3df347931005204000053039865802BR5922Augusto Pires Zuanazzi6009SAO PAULO62140510r4NO7e575F63043C87'
 
     // If you have a hosted payment URL from InfinityPay, you can also expose it:
     // Example (placeholder):
@@ -17,8 +18,8 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       // Prefer hosted URL when available; else expose pixCode to render QR in-app
-      // checkoutUrl,
-      pixCode: infinityPayCode,
+      checkoutUrl,
+      pixCode,
     })
   } catch (err: any) {
     return NextResponse.json({ error: err?.message || 'Pix checkout failed' }, { status: 500 })
