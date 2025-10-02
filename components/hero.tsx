@@ -4,7 +4,6 @@ import { ArrowRight } from 'lucide-react'
 import { HeroAnimations } from './hero-animations'
 import { AnimatedCounter } from './animated-counter'
 import { TypingEffect } from './typing-effect'
-import { BorderBeam } from './border-beam'
 
 export function Hero() {
   return (
@@ -82,7 +81,7 @@ export function Hero() {
           {/* Product Image */}
           <div className="relative order-first lg:order-last">
             <div className="relative aspect-square max-w-sm lg:max-w-lg mx-auto p-4">
-              {/* Border Beam Animation - positioned behind image */}
+              {/* Interactive visual effect - positioned behind image */}
               <div className="absolute inset-0 z-0 pointer-events-none">
                 <HeroAnimations />
               </div>
