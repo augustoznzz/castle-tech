@@ -22,7 +22,7 @@ export default function PlansPage() {
               'Infraestrutura básica',
               'Suporte técnico via E-mail/WhatsApp',
             ]}
-            price="R$ 100"
+            price="R$ 200"
             slug="plans#starter"
           />
 

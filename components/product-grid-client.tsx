@@ -18,7 +18,7 @@ function ProductGridContent() {
         subtitle="Perfeito para começar"
         description="Comece com o essencial para lançar."
         features={['1 Landing page + 3 páginas', 'Portfólio', 'Serviços', 'Informações de contato']}
-        price="R$ 100"
+        price="R$ 200"
         isHome
       />
       <CardFlip
