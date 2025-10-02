@@ -1,0 +1,83 @@
+[
+  {
+    "id": "1759047939147",
+    "title": "Starter",
+    "price": 100,
+    "image": "/images/castletech.svg",
+    "href": "/plans#starter",
+    "category": "Plans",
+    "description": "Starter plan",
+    "htmlDescription": "",
+    "rating": 4.5,
+    "reviews": 10,
+    "stockMode": "none",
+    "stockKeys": [],
+    "documents": [
+      {
+        "id": "3c5d3b74-a6b9-4aee-8358-6513ca65725a",
+        "name": "test.zip",
+        "filename": "test_0674cc70-01d4-408a-976f-f8c2c9b29350.zip",
+        "originalName": "test.zip",
+        "size": 154,
+        "type": "application/x-zip-compressed",
+        "url": "/uploads/test_0674cc70-01d4-408a-976f-f8c2c9b29350.zip",
+        "uploadedAt": "2025-09-28T08:26:09.990Z",
+        "description": "",
+        "isStock": true
+      }
+    ]
+  },
+  {
+    "id": "1759047940214",
+    "title": "Pro",
+    "price": 400,
+    "image": "/images/castletech.svg",
+    "href": "/plans#pro",
+    "category": "Plans",
+    "description": "Pro plan",
+    "htmlDescription": "",
+    "rating": 5,
+    "reviews": 8,
+    "stockMode": "keys",
+    "stockKeys": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10"
+    ]
+  },
+  {
+    "id": "1759048179236",
+    "title": "Premium",
+    "price": 1200,
+    "image": "/images/castletech.svg",
+    "href": "/plans#premium",
+    "category": "Plans",
+    "description": "Premium plan",
+    "htmlDescription": "<p>Premium plan benefits.</p>",
+    "rating": 4.6,
+    "reviews": 52,
+    "stockMode": "none",
+    "stockKeys": [],
+    "documents": [
+      {
+        "id": "e3e030d6-9ead-4f6f-b6e3-53ca49abf155",
+        "name": "test.zip",
+        "filename": "test_0efb6d18-5ea5-4b7f-a03a-7ac77d378ccc.zip",
+        "originalName": "test.zip",
+        "size": 154,
+        "type": "application/x-zip-compressed",
+        "url": "/uploads/test_0efb6d18-5ea5-4b7f-a03a-7ac77d378ccc.zip",
+        "uploadedAt": "2025-09-28T08:30:10.980Z",
+        "description": "",
+        "isStock": true
+      }
+    ]
+  }
+]

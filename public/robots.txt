@@ -1,0 +1,11 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+# Host
+Host: https://castletech-commerce.vercel.app
+
+# Sitemaps
+Sitemap: https://castletech-commerce.vercel.app/sitemap.xml
