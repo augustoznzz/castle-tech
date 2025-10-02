@@ -68,10 +68,10 @@ function CheckoutContent() {
     <div className="min-h-screen pt-20">
       <div className="container section-padding">
         <button onClick={() => router.back()} className="mb-6 inline-flex items-center text-sm text-muted hover:text-foreground">
-          <ChevronLeft className="mr-1 h-4 w-4" /> Back
+          <ChevronLeft className="mr-1 h-4 w-4" /> Voltar
         </button>
 
-        <h1 className="heading-lg mb-6">Checkout</h1>
+        <h1 className="heading-lg mb-6">Finalizar compra</h1>
 
         {!product ? (
           isLoadingProducts ? (
@@ -80,23 +80,23 @@ function CheckoutContent() {
             </div>
           ) : (
             <div className="rounded-lg border border-border bg-border/10 p-6">
-              <p className="text-body">Product not found. Go back to the <Link href="/plans" className="text-[#22D3EE]">plans</Link>.</p>
+              <p className="text-body">Produto não encontrado. Volte para os <Link href="/plans" className="text-[#22D3EE]">planos</Link>.</p>
             </div>
           )
         ) : (
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
             <div className="lg:col-span-2 space-y-6">
               <div className="rounded-lg border border-border bg-border/10 p-4">
-                <div className="mb-4 text-sm text-muted">Order items</div>
+                <div className="mb-4 text-sm text-muted">Itens do pedido</div>
                 <div className="flex items-center gap-4">
                   <div className="relative h-20 w-20 overflow-hidden rounded-md border border-border bg-transparent">
                     <Image src={product.image || '/images/castletech.svg'} alt={product.title} fill className="object-contain" />
                   </div>
                   <div className="flex-1">
                     <div className="font-semibold">{product.title}</div>
-                    <div className="text-sm text-muted">Unit price: {formatPrice(unitPrice)}</div>
+                    <div className="text-sm text-muted">Preço unitário: {formatPrice(unitPrice)}</div>
                     <div className="mt-2 flex items-center gap-2">
-                      <label className="text-sm text-muted">Qty</label>
+                      <label className="text-sm text-muted">Quantidade</label>
                       <input
                         type="number"
                         min={1}
@@ -111,21 +111,21 @@ function CheckoutContent() {
               </div>
 
               <div className="rounded-lg border border-border bg-border/10 p-4">
-                <div className="mb-2 text-sm text-muted">Guest Checkout</div>
+                <div className="mb-2 text-sm text-muted">Finalizar compra como convidado</div>
                 <p className="text-sm text-muted">Sem necessidade de conta! Pagamentos são processados via Pix. Você receberá o comprovante por e-mail após a compra.</p>
               </div>
             </div>
 
             <div>
               <div className="rounded-lg border border-border bg-border/10 p-4">
-                <div className="mb-4 text-sm text-muted">Summary</div>
+                <div className="mb-4 text-sm text-muted">Resumo</div>
                 <div className="mb-2 flex items-center justify-between text-sm">
                   <span>Subtotal</span>
                   <span>{formatPrice(total)}</span>
                 </div>
                 <div className="mb-4 flex items-center justify-between text-sm text-muted">
-                  <span>Taxes</span>
-                  <span>Included</span>
+                  <span>Impostos</span>
+                  <span>Incluídos</span>
                 </div>
 
                 <div className="mb-4 h-px bg-border" />
