@@ -90,7 +90,7 @@ function CheckoutContent() {
                 <div className="mb-4 text-sm text-muted">Itens do pedido</div>
                 <div className="flex items-center gap-4">
                   <div className="relative h-20 w-20 overflow-hidden rounded-md border border-border bg-transparent">
-                    <Image src={product.image || '/images/castletech.svg'} alt={product.title} fill className="object-contain" />
+                    <Image src={product.image || '/images/castle_tech.png'} alt={product.title} fill className="object-contain" />
                   </div>
                   <div className="flex-1">
                     <div className="font-semibold">{product.title}</div>

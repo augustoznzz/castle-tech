@@ -123,7 +123,7 @@ export function ProductCard({ product, index = 0, hideImage = false }: ProductCa
             <div className="relative p-6">
               <div className="relative h-48 w-full overflow-hidden rounded-xl bg-transparent">
                 <Image
-                  src={updatedProduct.image || '/images/castletech.svg'}
+                  src={updatedProduct.image || '/images/castle_tech.png'}
                   alt={updatedProduct.title}
                   fill
                   className="object-contain"

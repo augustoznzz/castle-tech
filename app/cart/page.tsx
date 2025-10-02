@@ -119,7 +119,7 @@ export default function CartPage() {
                   <div key={slug} className="rounded-lg border border-border bg-border/10 p-4">
                     <div className="flex items-center gap-4">
                       <div className="relative h-20 w-20 overflow-hidden rounded-md border border-border bg-transparent">
-                        <Image src={product.image || '/images/castletech.svg'} alt={product.title} fill className="object-contain" />
+                        <Image src={product.image || '/images/castle_tech.png'} alt={product.title} fill className="object-contain" />
                       </div>
                       <div className="flex-1">
                         <div className="font-semibold">{product.title}</div>

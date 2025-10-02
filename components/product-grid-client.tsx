@@ -26,7 +26,7 @@ function ProductGridContent() {
         subtitle="Cresça com confiança"
         description="Ferramentas avançadas e assistência prioritária."
         features={['Projetos ilimitados', 'Suporte prioritário', 'Análises avançadas', 'Colaboração em equipe']}
-        price="R$ 400"
+        price="R$ 600"
         isHome
       />
       <CardFlip

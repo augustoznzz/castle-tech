@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
 
 interface HeroAnimationsProps {
   type?: 'floating' | 'scroll'
@@ -10,6 +11,46 @@ export function HeroAnimations({ type = 'floating' }: HeroAnimationsProps) {
   if (type === 'scroll') {
     return null
   }
+
+  // Keep dash/gap proportional to the measured path length so it looks the same on
+  // mobile and desktop. We also keep animation speed constant per unit length.
+  const pathElementRef = useRef<SVGPathElement | null>(null)
+  const [measuredPathLength, setMeasuredPathLength] = useState<number>(190)
+
+  // 34/190 ≈ 0.1789 — preserve original visual ratio across sizes
+  const dashLengthRatio = 34 / 190
+  const pixelsPerSecond = 190 / 3.5 // match original speed
+
+  const computedDash = Math.max(8, measuredPathLength * dashLengthRatio)
+  const computedGap = Math.max(0, measuredPathLength - computedDash)
+  const computedDuration = measuredPathLength / pixelsPerSecond
+
+  useEffect(() => {
+    const recalculateFromDOM = () => {
+      const node = pathElementRef.current
+      if (!node) return
+      try {
+        const length = node.getTotalLength()
+        // Avoid NaN/0 in rare cases during layout thrash
+        if (Number.isFinite(length) && length > 0) {
+          setMeasuredPathLength(length)
+        }
+      } catch {
+        // noop – keep previous
+      }
+    }
+
+    // Initial measure
+    recalculateFromDOM()
+
+    // Recalculate on resize/orientation changes so mobile stays equivalent
+    window.addEventListener('resize', recalculateFromDOM)
+    window.addEventListener('orientationchange', recalculateFromDOM)
+    return () => {
+      window.removeEventListener('resize', recalculateFromDOM)
+      window.removeEventListener('orientationchange', recalculateFromDOM)
+    }
+  }, [])
 
   return (
     <>
@@ -41,10 +82,11 @@ export function HeroAnimations({ type = 'floating' }: HeroAnimationsProps) {
               strokeLinejoin="round"
               filter="url(#ct-glow)"
               vectorEffect="non-scaling-stroke"
-              strokeDasharray="34 156"
+              ref={pathElementRef}
+              strokeDasharray={`${computedDash} ${computedGap}`}
               initial={{ strokeDashoffset: 0 }}
-              animate={{ strokeDashoffset: -190 }}
-              transition={{ repeat: Infinity, repeatType: 'loop', repeatDelay: 0, ease: 'linear', duration: 3.5 }}
+              animate={{ strokeDashoffset: -measuredPathLength }}
+              transition={{ repeat: Infinity, repeatType: 'loop', repeatDelay: 0, ease: 'linear', duration: computedDuration }}
             />
           </g>
         </svg>

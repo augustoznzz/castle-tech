@@ -1,3 +1,4 @@
+'use client'
 import CardFlip from '@/components/card-flip'
 
 export default function PlansPage() {
@@ -38,7 +39,7 @@ export default function PlansPage() {
               'Integrações com APIs externas (CRM, ERP, gateways complexos, etc.)',
               'Suporte técnico prioritário',
             ]}
-            price="R$ 400"
+            price="R$ 600"
             slug="plans#pro"
           />
 
