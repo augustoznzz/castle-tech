@@ -26,8 +26,7 @@ export interface Product {
   stockMode?: 'infinite' | 'keys' | 'none'
   stockCount?: number
   stockKeys?: string[]
-  // Payments
-  stripeProductId?: string
+  // Payments (Stripe removido)
   // Document management
   documents?: ProductDocument[]
 }

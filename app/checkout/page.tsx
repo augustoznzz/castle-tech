@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { PRODUCTS, type Product } from '@/lib/mock-data'
 import { formatPrice } from '@/lib/utils'
-import { ChevronLeft, CreditCard, Banknote } from 'lucide-react'
+import { ChevronLeft, Banknote } from 'lucide-react'
 import { useProducts } from '@/lib/hooks/use-products'
 
 export const dynamic = 'force-dynamic'
@@ -112,7 +112,7 @@ function CheckoutContent() {
 
               <div className="rounded-lg border border-border bg-border/10 p-4">
                 <div className="mb-2 text-sm text-muted">Guest Checkout</div>
-                <p className="text-sm text-muted">No account required! Payments are processed securely with Stripe. You'll receive a receipt via email after purchase.</p>
+                <p className="text-sm text-muted">Sem necessidade de conta! Pagamentos são processados via Pix. Você receberá o comprovante por e-mail após a compra.</p>
               </div>
             </div>
 
@@ -134,7 +134,7 @@ function CheckoutContent() {
                   <span>{formatPrice(total)}</span>
                 </div>
 
-                {/* Pix first */}
+                {/* Pagamento via Pix */}
                 <button
                   onClick={async () => {
                     // Basic Pix call: create/order context could be derived from slug/qty/total
@@ -167,16 +167,7 @@ function CheckoutContent() {
                   <span>Pix</span>
                 </button>
 
-                <div className="my-4 h-px bg-border" />
-
-                <form action="/api/checkout" method="POST" className="space-y-2">
-                  <input type="hidden" name="slug" value={normalizedSlug} />
-                  <input type="hidden" name="quantity" value={quantity} />
-                  <button type="submit" className="btn-primary w-full flex items-center justify-center gap-2">
-                    <CreditCard className="w-4 h-4" />
-                    <span>Crédito/Débito</span>
-                  </button>
-                </form>
+                {/* Removido pagamento por cartão (Stripe) */}
               </div>
             </div>
           </div>

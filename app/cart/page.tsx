@@ -168,13 +168,37 @@ export default function CartPage() {
                   <span>{formatPrice(subtotal)}</span>
                 </div>
 
-                <form action="/api/checkout" method="POST" className="space-y-2">
-                  <input type="hidden" name="items" value={JSON.stringify(cart)} />
-                  <button type="submit" className="btn-primary w-full">Checkout</button>
-                </form>
-                <div className="mt-3 text-center text-xs text-muted">
-                  No account required! You will be redirected to Stripe to complete your purchase.
-                </div>
+                {/* Pagamento via Pix */}
+                <button
+                  onClick={async () => {
+                    try {
+                      const orderId = `cart-${Date.now()}`
+                      const amount = Math.round(subtotal * 100)
+                      const res = await fetch('/api/pix', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ orderId, amount }),
+                      })
+                      if (!res.ok) throw new Error('Falha ao iniciar pagamento Pix')
+                      const data = await res.json()
+                      if (data.checkoutUrl) {
+                        window.location.href = data.checkoutUrl
+                        return
+                      }
+                      if (data.pixCode) {
+                        const params = new URLSearchParams({ code: data.pixCode })
+                        window.location.href = `/checkout/pix?${params.toString()}`
+                        return
+                      }
+                      throw new Error('Resposta Pix inválida')
+                    } catch (e) {
+                      alert((e as Error).message || 'Erro no pagamento Pix')
+                    }
+                  }}
+                  className="btn-primary w-full"
+                >
+                  Pagar com Pix
+                </button>
               </div>
             </div>
           </div>

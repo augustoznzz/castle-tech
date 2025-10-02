@@ -109,9 +109,8 @@ export default function ContactForm() {
           className="w-full px-4 py-3 rounded-lg border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
           style={{ backgroundColor: '#1A1A1A' }}
         >
-          <option value="">Selecione um assunto</option>
           <option value="general">Dúvida geral</option>
-          <option value="support">Suporte na compra</option>
+          <option value="support">Suporte após compra</option>
           <option value="other">Outro</option>
         </select>
       </div>
