@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     siteName: 'Castle Tech',
     images: [
       {
-        url: '/og-image.jpg',
+        url: '/images/castle_tech.png',
         width: 1200,
         height: 630,
         alt: 'Castle Tech',
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'CastleTech Commerce - O melhor serviço para seu SaaS',
     description: 'Descubra qualidade e design excepcionais com nossa coleção selecionada de produtos. Feitos para durar, projetados para inspirar. Suporte 12/7.',
-    images: ['/og-image.jpg'],
+    images: ['/images/castle_tech.png'],
   },
   robots: {
     index: true,
@@ -78,6 +78,17 @@ export default function RootLayout({
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
+        {/* Explicit OG/Twitter tags for Discord caches */}
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="CastleTech Commerce - O melhor serviço para seu SaaS" />
+        <meta property="og:site_name" content="Castle Tech" />
+        <meta property="og:description" content="Descubra qualidade e design excepcionais com nossa coleção selecionada de produtos. Feitos para durar, projetados para inspirar. Suporte 12/7." />
+        <meta property="og:url" content="https://castletech.netlify.app" />
+        <meta property="og:image" content="https://castletech.netlify.app/images/castle_tech.png" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="CastleTech Commerce - O melhor serviço para seu SaaS" />
+        <meta name="twitter:description" content="Descubra qualidade e design excepcionais com nossa coleção selecionada de produtos. Feitos para durar, projetados para inspirar. Suporte 12/7." />
+        <meta name="twitter:image" content="https://castletech.netlify.app/images/castle_tech.png" />
       </head>
       <body className={`${inter.variable} font-sans bg-background text-foreground antialiased`}>
         <AccessibilityProvider>
