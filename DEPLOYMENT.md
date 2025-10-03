@@ -1,6 +1,6 @@
 # Deployment Guide
 
-This guide covers deploying CastleTech Commerce to various platforms.
+This guide covers deploying Castle Tech to various platforms.
 
 ## 🚀 Netlify (Recommended)
 
