@@ -20,7 +20,7 @@ export default function PlansPage() {
             features={[
               '1 Landing page responsiva',
               'Infraestrutura em cloudflare',
-              'Suporte técnico via E-mail/WhatsApp',
+              'Suporte técnico',
               'Segurança SSL',
             ]}
             price="A partir de R$ 100"
