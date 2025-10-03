@@ -16,7 +16,7 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'CastleTech Commerce',
+  title: 'Castle Tech',
   description: 'Discover premium products with exceptional quality and design. Fast delivery, easy returns, and 24/7 support.',
   keywords: 'e-commerce, premium products, online shopping, technology, lifestyle',
   authors: [{ name: 'CastleTech' }],
@@ -74,7 +74,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="icon" href="/images/castle_tech.png" type="image/png" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
