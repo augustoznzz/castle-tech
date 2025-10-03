@@ -12,51 +12,57 @@ export default function PlansPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 place-items-center">
           <CardFlip
-            className="!h-[484px]"
+            className="!h-[580px]"
             priceSeparatorGapPx={5}
             title="Starter"
             subtitle="Perfeito para começar"
             description="Comece com o essencial para lançar."
             features={[
-              'Landing page responsiva',
-              'Infraestrutura básica',
+              '1 Landing page responsiva',
+              'Infraestrutura em cloudflare',
               'Suporte técnico via E-mail/WhatsApp',
+              'Segurança SSL',
             ]}
-            price="A partir de R$ 200"
+            price="A partir de R$ 100"
             ctaHref="/contact"
           />
 
           <CardFlip
-            className="!h-[484px]"
+            className="!h-[580px]"
             priceSeparatorGapPx={5}
             title="Pro"
             subtitle="Cresça com confiança"
             description="Ferramentas avançadas e assistência prioritária."
             features={[
               'Todos os recursos do Starter +',
-              'Infraestrutura em cloud',
+              '3 páginas de sua escolh (4 ao total)',
               'Integração com meios de pagamento via Pix',
               'Integrações com APIs externas (CRM, ERP, gateways complexos, etc.)',
               'Suporte técnico prioritário',
+              'Segurança SSL',
             ]}
             price="A partir de R$ 600"
             ctaHref="/contact"
           />
 
           <CardFlip
-            className="!h-[484px]"
+            className="!h-[580px]"
             priceSeparatorGapPx={5}
             title="Premium"
             subtitle="Escale com segurança"
             description="Soluções sob medida e sucesso dedicado."
             features={[
               'Todos os recursos do Pro +',
+              '6 páginas de sua escolha (10 ao total)',
               'IA aplicada ao SaaS (chatbots)',
-              'Consultoria estratégica para evolução do produto',
+              'Disponibilidade de consultoria estratégica uma vez por mês',
               'Camada de segurança reforçada (autenticação JWT, criptografia de dados sensíveis)',
-              'Suporte técnico prioritário',
+              'Painel de administrador com métricas detalhadas sobre usuários e acessos',
+              '1 ano de domínio gratuito',
+              'Segurança SSL',
+              'Suporte prioritário 18/24',
             ]}
-            price="A partir de R$ 1200"
+            price="A partir de R$ 1800"
             ctaHref="/contact"
           />
         </div>
