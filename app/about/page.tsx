@@ -101,7 +101,7 @@ export default function AboutPage() {
             <div className="text-center">
               <div className="text-muted mb-1">Taxa de satisfação</div>
               <AnimatedCounter 
-                value="99%" 
+                value="100%" 
                 className="text-3xl font-bold text-accent" 
                 duration={2.2}
               />
@@ -109,8 +109,8 @@ export default function AboutPage() {
             <div className="text-center">
               <div className="text-muted mb-1">Entrega em até</div>
               <AnimatedCounter 
-                value={120} 
-                suffix=" horas"
+                value={7} 
+                suffix=" dias"
                 className="text-3xl font-bold text-accent" 
                 duration={1.5}
               />

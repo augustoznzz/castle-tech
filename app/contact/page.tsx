@@ -49,7 +49,7 @@ export default function ContactPage() {
                 <div>
                   <h3 className="font-semibold text-foreground mb-1">Telefone</h3>
                   <p className="text-muted">+55 (99) 99999-9999</p>
-                  <p className="text-sm text-muted">Seg a Sex: 9h às 18h</p>
+                  <p className="text-sm text-muted">Seg a Sex: 8h às 20h</p>
                 </div>
               </div>
 

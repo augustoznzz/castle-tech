@@ -7,7 +7,7 @@ import { FeatureCard } from './feature-card'
 const features = [
   {
     title: 'Entrega Rápida',
-    description: 'A construção do seu SaaS feita em até 120 horas.',
+    description: 'A construção do seu SaaS feita em até 7 dias.',
     icon: Truck,
   },
   {

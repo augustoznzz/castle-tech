@@ -110,7 +110,7 @@ export default function ContactForm() {
           style={{ backgroundColor: '#1A1A1A' }}
         >
           <option value="general">Dúvida geral</option>
-          <option value="support">Suporte após compra</option>
+          <option value="support">Suporte pós compra</option>
           <option value="other">Outro</option>
         </select>
       </div>

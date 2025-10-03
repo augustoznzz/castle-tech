@@ -60,8 +60,8 @@ export function Hero() {
                <div className="text-center">
                  <div className="text-sm text-muted mb-1">Entrega em até</div>
                  <AnimatedCounter 
-                   value={120}
-                   suffix=" horas"
+                   value={7}
+                   suffix=" dias"
                    className="text-2xl font-bold text-accent" 
                    duration={1.5}
                  />

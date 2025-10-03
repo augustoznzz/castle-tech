@@ -1,4 +1,5 @@
 import { Suspense } from 'react'
+import { AnimatedCounter } from '@/components/animated-counter'
 import { Hero } from '@/components/hero'
 import { ProductGrid } from '@/components/product-grid'
 import { FeaturesSection } from '@/components/features-section'
@@ -32,10 +33,46 @@ export default function HomePage() {
   return (
     <div id="main-content">
       <Hero />
+      {/* Mobile-only spacer to prevent layout shift from typing effect */}
+      <div className="block md:hidden h-16" aria-hidden="true" />
       <Suspense fallback={<ProductGridSkeleton />}>
         <ProductGrid />
       </Suspense>
       <FeaturesSection />
+      {/* Estatísticas finais antes do rodapé */}
+      <section className="section-padding">
+        <div className="container">
+          <div className="bg-gradient-to-r from-accent/5 to-accent/10 rounded-2xl p-12 text-center">
+            <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-8 justify-items-center">
+              <div className="text-center">
+                <div className="text-muted mb-1">Clientes satisfeitos</div>
+                <AnimatedCounter 
+                  value="320+" 
+                  className="text-3xl font-bold text-accent" 
+                  duration={2.5}
+                />
+              </div>
+              <div className="text-center">
+                <div className="text-muted mb-1">Taxa de satisfação</div>
+                <AnimatedCounter 
+                  value="100%" 
+                  className="text-3xl font-bold text-accent" 
+                  duration={2.2}
+                />
+              </div>
+              <div className="text-center">
+                <div className="text-muted mb-1">Entrega em até</div>
+                <AnimatedCounter 
+                  value={7} 
+                  suffix=" dias"
+                  className="text-3xl font-bold text-accent" 
+                  duration={1.5}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   )
 }
