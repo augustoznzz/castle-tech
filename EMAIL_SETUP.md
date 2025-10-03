@@ -1,4 +1,4 @@
-# Configuração de E-mail - CastleTech Commerce
+# Configuração de E-mail - Castle Tech
 
 ## Configuração Necessária
 
