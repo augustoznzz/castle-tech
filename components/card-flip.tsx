@@ -198,7 +198,7 @@ export default function CardFlip({
                 className="group/start w-[calc(100%-10px)] mx-auto relative flex items-center justify-between p-3 rounded-xl transition-all duration-300 bg-gradient-to-r from-zinc-100 via-zinc-100 to-zinc-100 dark:from-zinc-800 dark:via-zinc-800 dark:to-zinc-800 hover:from-accent/10 hover:from-0% hover:via-accent/5 hover:via-100% hover:to-transparent hover:to-100% dark:hover:from-accent/20 dark:hover:from-0% dark:hover:via-accent/10 dark:hover:via-100% dark:hover:to-transparent dark:hover:to-100% hover:scale-[1.02] cursor-pointer"
               >
                 <span className="text-sm font-medium text-zinc-900 dark:text-white transition-colors duration-300 group-hover/start:text-accent dark:group-hover/start:text-accent">
-                  Comece Hoje
+                  Solicite um orçamento
                 </span>
                 <div className="relative group/icon">
                   <div className="absolute inset-[-6px] rounded-lg transition-all duration-300 bg-gradient-to-br from-accent/20 via-accent/10 to-transparent opacity-0 group-hover/start:opacity-100 scale-90 group-hover/start:scale-100" />
@@ -212,7 +212,7 @@ export default function CardFlip({
                 className="group/start w-[calc(100%-10px)] mx-auto relative flex items-center justify-between p-3 rounded-xl transition-all duration-300 bg-gradient-to-r from-zinc-100 via-zinc-100 to-zinc-100 dark:from-zinc-800 dark:via-zinc-800 dark:to-zinc-800 hover:from-accent/10 hover:from-0% hover:via-accent/5 hover:via-100% hover:to-transparent hover:to-100% dark:hover:from-accent/20 dark:hover:from-0% dark:hover:via-accent/10 dark:hover:via-100% dark:hover:to-transparent dark:hover:to-100% hover:scale-[1.02] cursor-pointer"
               >
                 <span className="text-sm font-medium text-zinc-900 dark:text-white transition-colors duration-300 group-hover/start:text-accent dark:group-hover/start:text-accent">
-                  Comece Hoje
+                  Solicite um orçamento
                 </span>
                 <div className="relative group/icon">
                   <div className="absolute inset-[-6px] rounded-lg transition-all duration-300 bg-gradient-to-br from-accent/20 via-accent/10 to-transparent opacity-0 group-hover/start:opacity-100 scale-90 group-hover/start:scale-100" />
@@ -222,7 +222,7 @@ export default function CardFlip({
             ) : (
               <div className="group/start w-[calc(100%-10px)] mx-auto relative flex items-center justify-between p-3 rounded-xl transition-all duration-300 bg-gradient-to-r from-zinc-100 via-zinc-100 to-zinc-100 dark:from-zinc-800 dark:via-zinc-800 dark:to-zinc-800 opacity-70">
                 <span className="text-sm font-medium text-zinc-900 dark:text-white">
-                  Comece Hoje
+                  Solicite um orçamento
                 </span>
                 <div className="relative group/icon">
                   <div className="relative z-10 w-4 h-4 text-accent">→</div>
