@@ -12,7 +12,7 @@ export default function PlansPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 place-items-center">
           <CardFlip
-            className="!h-[580px]"
+            className="!h-[400px]"
             priceSeparatorGapPx={5}
             title="Starter"
             subtitle="Perfeito para começar"
@@ -28,7 +28,7 @@ export default function PlansPage() {
           />
 
           <CardFlip
-            className="!h-[580px]"
+            className="!h-[510px]"
             priceSeparatorGapPx={5}
             title="Pro"
             subtitle="Cresça com confiança"
@@ -46,7 +46,7 @@ export default function PlansPage() {
           />
 
           <CardFlip
-            className="!h-[580px]"
+            className="!h-[630px]"
             priceSeparatorGapPx={5}
             title="Premium"
             subtitle="Escale com segurança"
