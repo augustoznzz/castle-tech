@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Zen_Dots } from 'next/font/google';
 const zenDots = Zen_Dots({ subsets: ['latin'], weight: '400', display: 'swap' });
 
@@ -12,6 +12,7 @@ export type CardFlipProps = {
   className?: string;
   price?: string;
   slug?: string; // slug used for checkout redirection (matches product href tail)
+  ctaHref?: string; // optional CTA override link
   // Desired visual gap between the price text and the separator line below (in px)
   priceSeparatorGapPx?: number;
   isHome?: boolean;
@@ -25,10 +26,16 @@ export default function CardFlip({
   className = '',
   price,
   slug,
+  ctaHref,
   priceSeparatorGapPx,
   isHome = false
 }: CardFlipProps) {
   const [isFlipped, setIsFlipped] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // The separator line is positioned using before:top-[-7px].
   // To achieve a visual gap of X px from the price to the line,
@@ -39,14 +46,24 @@ export default function CardFlip({
   return (
     <div
       className={`relative w-full max-w-[336px] h-[384px] group [perspective:2000px] ${className}`}
-      onMouseEnter={() => setIsFlipped(true)}
-      onMouseLeave={() => setIsFlipped(false)}
-      onClick={() => setIsFlipped(!isFlipped)}
+      onMouseEnter={() => {
+        if (!isMounted) return;
+        setIsFlipped(true);
+      }}
+      onMouseLeave={() => {
+        if (!isMounted) return;
+        setIsFlipped(false);
+      }}
+      onClick={() => {
+        if (!isMounted) return;
+        setIsFlipped(!isFlipped);
+      }}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
+          if (!isMounted) return;
           setIsFlipped(!isFlipped);
         }
       }}
@@ -174,7 +191,21 @@ export default function CardFlip({
             className={`relative before:content-[''] before:absolute before:inset-x-0 before:top-[-7px] before:h-px before:bg-zinc-200 dark:before:bg-zinc-800 ${isHome ? 'pt-2' : ''}`}
             style={{ marginTop: separatorMarginTopPx !== undefined ? separatorMarginTopPx : 12 }}
           >
-            {slug ? (
+            {ctaHref ? (
+              <a
+                href={ctaHref}
+                onClick={(e) => e.stopPropagation()}
+                className="group/start w-[calc(100%-10px)] mx-auto relative flex items-center justify-between p-3 rounded-xl transition-all duration-300 bg-gradient-to-r from-zinc-100 via-zinc-100 to-zinc-100 dark:from-zinc-800 dark:via-zinc-800 dark:to-zinc-800 hover:from-accent/10 hover:from-0% hover:via-accent/5 hover:via-100% hover:to-transparent hover:to-100% dark:hover:from-accent/20 dark:hover:from-0% dark:hover:via-accent/10 dark:hover:via-100% dark:hover:to-transparent dark:hover:to-100% hover:scale-[1.02] cursor-pointer"
+              >
+                <span className="text-sm font-medium text-zinc-900 dark:text-white transition-colors duration-300 group-hover/start:text-accent dark:group-hover/start:text-accent">
+                  Comece Hoje
+                </span>
+                <div className="relative group/icon">
+                  <div className="absolute inset-[-6px] rounded-lg transition-all duration-300 bg-gradient-to-br from-accent/20 via-accent/10 to-transparent opacity-0 group-hover/start:opacity-100 scale-90 group-hover/start:scale-100" />
+                  <div className="relative z-10 w-4 h-4 text-accent transition-all duration-300 group-hover/start:translate-x-0.5 group-hover/start:scale-110">→</div>
+                </div>
+              </a>
+            ) : slug ? (
               <a
                 href={`/checkout?slug=${encodeURIComponent(slug.split('#').pop() || slug)}&quantity=1`}
                 onClick={(e) => e.stopPropagation()}

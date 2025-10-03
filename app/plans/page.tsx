@@ -22,8 +22,8 @@ export default function PlansPage() {
               'Infraestrutura básica',
               'Suporte técnico via E-mail/WhatsApp',
             ]}
-            price="R$ 200"
-            slug="plans#starter"
+            price="A partir de R$ 200"
+            ctaHref="/contact"
           />
 
           <CardFlip
@@ -39,8 +39,8 @@ export default function PlansPage() {
               'Integrações com APIs externas (CRM, ERP, gateways complexos, etc.)',
               'Suporte técnico prioritário',
             ]}
-            price="R$ 600"
-            slug="plans#pro"
+            price="A partir de R$ 600"
+            ctaHref="/contact"
           />
 
           <CardFlip
@@ -56,8 +56,8 @@ export default function PlansPage() {
               'Camada de segurança reforçada (autenticação JWT, criptografia de dados sensíveis)',
               'Suporte técnico prioritário',
             ]}
-            price="R$ 1200"
-            slug="plans#premium"
+            price="A partir de R$ 1200"
+            ctaHref="/contact"
           />
         </div>
       </div>
