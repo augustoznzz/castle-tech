@@ -1,6 +1,6 @@
-# CastleTech Commerce
+# Castle Tech
 
-A premium e-commerce landing page built with Next.js 14, featuring a dark theme, smooth animations, and modern design inspired by minimalist aesthetics.
+A premium SaaS built with Next.js 14, featuring a dark theme, smooth animations, and modern design inspired by minimalist aesthetics.
 
 ## ✨ Features
 
@@ -225,7 +225,6 @@ This project is licensed under the MIT License.
 
 For support or questions:
 Discord: gutao#0001
-
 
 ---
 
