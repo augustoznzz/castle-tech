@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'CastleTech Commerce - O melhor serviço para seu SaaS',
+    title: 'Castle Tech Commerce - Premium SaaS',
     description: 'Descubra qualidade e design excepcionais com nossa coleção selecionada de produtos. Feitos para durar, projetados para inspirar. Suporte 12/7.',
     url: 'https://castletech.netlify.app',
     siteName: 'Castle Tech',
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'CastleTech Commerce - O melhor serviço para seu SaaS',
+    title: 'Castle Tech Commerce - Premium SaaS',
     description: 'Descubra qualidade e design excepcionais com nossa coleção selecionada de produtos. Feitos para durar, projetados para inspirar. Suporte 12/7.',
     images: ['/images/castle_tech.png'],
   },
@@ -80,13 +80,13 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
         {/* Explicit OG/Twitter tags for Discord caches */}
         <meta property="og:type" content="website" />
-        <meta property="og:title" content="CastleTech Commerce - O melhor serviço para seu SaaS" />
+        <meta property="og:title" content="Castle Tech Commerce - Premium SaaS" />
         <meta property="og:site_name" content="Castle Tech" />
         <meta property="og:description" content="Descubra qualidade e design excepcionais com nossa coleção selecionada de produtos. Feitos para durar, projetados para inspirar. Suporte 12/7." />
         <meta property="og:url" content="https://castletech.netlify.app" />
         <meta property="og:image" content="https://castletech.netlify.app/images/castle_tech.png" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="CastleTech Commerce - O melhor serviço para seu SaaS" />
+        <meta name="twitter:title" content="Castle Tech Commerce - Premium SaaS" />
         <meta name="twitter:description" content="Descubra qualidade e design excepcionais com nossa coleção selecionada de produtos. Feitos para durar, projetados para inspirar. Suporte 12/7." />
         <meta name="twitter:image" content="https://castletech.netlify.app/images/castle_tech.png" />
       </head>
