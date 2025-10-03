@@ -17,7 +17,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: 'Castle Tech',
-  description: 'Discover premium products with exceptional quality and design. Fast delivery, easy returns, and 24/7 support.',
+  description: 'Descubra qualidade e design excepcionais com nossa coleção selecionada de produtos. Feitos para durar, projetados para inspirar. Suporte 12/7.',
   keywords: 'e-commerce, premium products, online shopping, technology, lifestyle',
   authors: [{ name: 'CastleTech' }],
   creator: 'CastleTech',
@@ -27,21 +27,21 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: new URL('https://castletech-commerce.vercel.app'),
+  metadataBase: new URL('https://castletech.netlify.app'),
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    title: 'CastleTech Commerce - Premium Services',
-    description: 'Discover premium products with exceptional quality and design.',
-    url: 'https://castletech-commerce.vercel.app',
-    siteName: 'CastleTech Commerce',
+    title: 'CastleTech Commerce - O melhor serviço para seu SaaS',
+    description: 'Descubra qualidade e design excepcionais com nossa coleção selecionada de produtos. Feitos para durar, projetados para inspirar. Suporte 12/7.',
+    url: 'https://castletech.netlify.app',
+    siteName: 'Castle Tech',
     images: [
       {
         url: '/og-image.jpg',
         width: 1200,
         height: 630,
-        alt: 'CastleTech Commerce',
+        alt: 'Castle Tech',
       },
     ],
     locale: 'en_US',
@@ -49,8 +49,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'CastleTech Commerce - Premium Services',
-    description: 'Discover premium products with exceptional quality and design.',
+    title: 'CastleTech Commerce - O melhor serviço para seu SaaS',
+    description: 'Descubra qualidade e design excepcionais com nossa coleção selecionada de produtos. Feitos para durar, projetados para inspirar. Suporte 12/7.',
     images: ['/og-image.jpg'],
   },
   robots: {

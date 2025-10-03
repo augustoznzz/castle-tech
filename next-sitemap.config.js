@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 module.exports = {
-  siteUrl: process.env.SITE_URL || 'https://castletech-commerce.vercel.app',
+  siteUrl: process.env.SITE_URL || 'https://castletech.netlify.app',
   generateRobotsTxt: true,
   sitemapSize: 7000,
   changefreq: 'daily',
@@ -20,7 +20,7 @@ module.exports = {
       },
     ],
     additionalSitemaps: [
-      'https://castletech-commerce.vercel.app/sitemap.xml',
+      'https://castletech.netlify.app/sitemap.xml',
     ],
   },
 }
