@@ -34,7 +34,7 @@ function ProductGridContent() {
         subtitle="Escale com segurança"
         description="Soluções sob medida e sucesso dedicado."
         features={['SLA & SSO', 'Suporte dedicado', 'Auditorias de segurança', 'Onboarding personalizado']}
-        price="R$ 1800"
+        price="R$ 1400"
         isHome
       />
     </motion.div>

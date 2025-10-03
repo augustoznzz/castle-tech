@@ -62,7 +62,7 @@ export default function PlansPage() {
               'Segurança SSL',
               'Suporte prioritário 18/24',
             ]}
-            price="A partir de R$ 1800"
+            price="A partir de R$ 1400"
             ctaHref="/contact"
           />
         </div>
