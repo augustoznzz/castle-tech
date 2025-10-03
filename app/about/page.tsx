@@ -4,7 +4,7 @@ import { Users, Award, Heart, Target } from 'lucide-react'
 import { AnimatedCounter } from '@/components/animated-counter'
 
 export const metadata: Metadata = {
-  title: 'Sobre - CastleTech Commerce',
+  title: 'Castle Tech',
   description: 'Saiba mais sobre a missão da CastleTech de oferecer produtos premium com qualidade e design excepcionais.',
 }
 
