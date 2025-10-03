@@ -1,7 +1,7 @@
 {
-  "name": "CastleTech Commerce",
-  "short_name": "CastleTech",
-  "description": "The best licenses for all software",
+  "name": "Castle Tech",
+  "short_name": "Castle Tech",
+  "description": "A melhor solução para o seu SaaS",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#171717",

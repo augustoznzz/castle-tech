@@ -3,7 +3,7 @@ import { Mail, Phone, MapPin } from 'lucide-react'
 import ContactForm from '@/components/contact-form'
 
 export const metadata: Metadata = {
-  title: 'Contato - CastleTech Commerce',
+  title: 'Contato - Castle Tech',
   description: 'Fale com a CastleTech. Estamos aqui para ajudar com dúvidas ou suporte que você precisar.',
 }
 
