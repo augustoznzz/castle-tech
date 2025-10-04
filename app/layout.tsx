@@ -105,7 +105,7 @@ export default function RootLayout({
                 <LightRays
                   raysOrigin="top-center"
                   raysColor="#0fffff"
-                  raysSpeed={1.0}
+                  raysSpeed={0.35}
                   lightSpread={0.80}
                   rayLength={2.0}
                   followMouse={false}
