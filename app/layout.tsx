@@ -5,6 +5,8 @@ import { SiteHeader } from '@/components/site-header'
 import { AccessibilityProvider } from '@/components/accessibility-provider'
 import { PerformanceMonitor } from '@/components/performance-monitor'
 import { SessionManager } from '@/components/session-manager'
+import { Squares } from '@/components/ui/squares-background'
+import { ClientOnly } from '@/components/client-only'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -95,7 +97,20 @@ export default function RootLayout({
         <AccessibilityProvider>
           <PerformanceMonitor />
           <SessionManager />
-          <div className="flex min-h-screen flex-col">
+          <div className="flex min-h-screen flex-col relative">
+            {/* Global animated background */}
+            <div className="pointer-events-none absolute inset-0 -z-10 opacity-30">
+              <ClientOnly>
+              <Squares 
+                  direction="diagonal" 
+                  speed={0.5} 
+                  squareSize={40} 
+                  borderColor="#22D3EE" 
+                  hoverFillColor="#22D3EE" 
+                excludeSelectors={[".bg-surface", ".squares-exclude"]}
+                />
+              </ClientOnly>
+            </div>
             <SiteHeader />
             <div className="flex-1 relative">
               <main className="relative z-10">
