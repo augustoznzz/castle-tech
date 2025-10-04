@@ -2,17 +2,17 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
 import { HeroAnimations } from './hero-animations'
+import dynamic from 'next/dynamic'
+const LightRays = dynamic(() => import('./LightRays'), { ssr: false })
 import { AnimatedCounter } from './animated-counter'
-import { TypingEffect } from './typing-effect'
 
 export function Hero() {
   return (
     <section className="relative min-h-screen flex items-start justify-center overflow-hidden pt-28">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-accent/5" />
+      {/* Background gradient removed to let LightRays show uniformly from top */}
+      {/* Rays now span the whole page via layout background */}
       
-      {/* Fade out effect at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none z-20" />
+      
       
       <div className="container relative z-10">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
@@ -68,14 +68,7 @@ export function Hero() {
                </div>
             </div>
 
-            {/* Typing Effect */}
-            <div className="mt-8 p-4 bg-background/50 border border-border rounded-lg backdrop-blur-sm">
-              <TypingEffect 
-                speed={50}
-                loopDelay={3000}
-                className="text-muted"
-              />
-            </div>
+            
           </div>
 
           {/* Product Image */}

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import dynamic from 'next/dynamic'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { SiteHeader } from '@/components/site-header'
@@ -71,6 +72,7 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const LightRays = dynamic(() => import('@/components/LightRays'), { ssr: false })
   return (
     <html lang="en" className="dark">
       <head>
@@ -97,9 +99,27 @@ export default function RootLayout({
           <SessionManager />
           <div className="flex min-h-screen flex-col">
             <SiteHeader />
-            <main className="flex-1">
-              {children}
-            </main>
+            <div className="flex-1 relative">
+              {/* Global background effect starts at top of main content, behind everything */}
+              <div aria-hidden className="pointer-events-none absolute inset-0 z-0">
+                <LightRays
+                  raysOrigin="top-center"
+                  raysColor="#0fffff"
+                  raysSpeed={1.0}
+                  lightSpread={0.80}
+                  rayLength={2.0}
+                  followMouse={false}
+                  mouseInfluence={0}
+                  noiseAmount={0.02}
+                  distortion={0.02}
+                  fadeDistance={1.2}
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </div>
+              <main className="relative z-10">
+                {children}
+              </main>
+            </div>
             <footer className="border-t border-border/40 py-6 text-center text-sm text-muted-foreground">
               © 2025 Castle Tech. Todos os direitos reservados.
             </footer>
