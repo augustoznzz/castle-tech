@@ -29,6 +29,8 @@ export interface LightRaysProps {
   distortion?: number;
   className?: string;
   style?: CSSProperties;
+  responsive?: boolean; // enable mobile responsiveness
+  mobileBreakpoint?: number; // px
 }
 
 const DEFAULT_COLOR = '#ffffff';
@@ -69,16 +71,18 @@ const LightRays: React.FC<LightRaysProps> = ({
   raysColor = DEFAULT_COLOR,
   raysSpeed = 1,
   lightSpread = 1,
-  rayLength = 2,
+  rayLength = 1,
   pulsating = false,
   fadeDistance = 1.0,
-  saturation = 1.0,
+  saturation = 0.85,
   followMouse = true,
   mouseInfluence = 0.1,
   noiseAmount = 0.0,
   distortion = 0.0,
   className = '',
-  style
+  style,
+  responsive = true,
+  mobileBreakpoint = 768
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const uniformsRef = useRef<any>(null);
@@ -127,8 +131,9 @@ const LightRays: React.FC<LightRaysProps> = ({
 
       if (!containerRef.current) return;
 
+      const isSmallViewport = responsive && window.innerWidth <= mobileBreakpoint;
       const renderer = new Renderer({
-        dpr: Math.min(window.devicePixelRatio, 2),
+        dpr: isSmallViewport ? Math.min(window.devicePixelRatio, 1.25) : Math.min(window.devicePixelRatio, 2),
         alpha: true
       });
       rendererRef.current = renderer;
@@ -186,13 +191,14 @@ float rayStrength(vec2 raySource, vec2 rayRefDirection, vec2 coord,
   float spreadFactor = pow(max(distortedAngle, 0.0), 1.0 / max(lightSpread, 0.001));
 
   float distance = length(sourceToCoord);
-  float maxDistance = iResolution.x * rayLength;
+  float maxDim = max(iResolution.x, iResolution.y);
+  float maxDistance = maxDim * rayLength;
   // Smooth falloff along ray length (begin later to remove mid-frame separation)
   float lengthFalloff = 1.0 - smoothstep(maxDistance * 0.9, maxDistance, distance);
   
   // Additional smooth fade distance to avoid any sharp boundary
-  float fadeStart = iResolution.x * fadeDistance * 0.85;
-  float fadeEnd = iResolution.x * fadeDistance * 1.25;
+  float fadeStart = maxDim * fadeDistance * 0.85;
+  float fadeEnd = maxDim * fadeDistance * 1.25;
   float fadeFalloff = 1.0 - smoothstep(fadeStart, fadeEnd, distance);
 
   float pulse = pulsating > 0.5 ? (0.8 + 0.2 * sin(iTime * speed * 3.0)) : 1.0;

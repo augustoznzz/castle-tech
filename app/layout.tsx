@@ -113,6 +113,8 @@ export default function RootLayout({
                   noiseAmount={0.02}
                   distortion={0.02}
                   fadeDistance={1.5}
+                  responsive
+                  mobileBreakpoint={768}
                   style={{ width: '100%', height: '100%' }}
                 />
               </div>
