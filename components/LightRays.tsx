@@ -243,9 +243,9 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
 
   // Brighter near the top, dimmer near the bottom
   float brightness = 1.0 - yNorm;
-  fragColor.x *= 0.1 + brightness * 0.8;
-  fragColor.y *= 0.3 + brightness * 0.6;
-  fragColor.z *= 0.5 + brightness * 0.5;
+  fragColor.x *= 0.1 + brightness * 0.3;
+  fragColor.y *= 0.3 + brightness * 0.2;
+  fragColor.z *= 0.5 + brightness * 0.1;
 
   // Apply vertical fade
   fragColor.rgb *= verticalFade;
