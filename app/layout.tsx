@@ -106,8 +106,8 @@ export default function RootLayout({
                   raysOrigin="top-center"
                   raysColor="#0fffff"
                   raysSpeed={0.35}
-                  lightSpread={0.80}
-                  rayLength={2.0}
+                  lightSpread={0.2}
+                  rayLength={2.2}
                   followMouse={false}
                   mouseInfluence={0}
                   noiseAmount={0.02}

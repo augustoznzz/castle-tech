@@ -186,7 +186,7 @@ float rayStrength(vec2 raySource, vec2 rayRefDirection, vec2 coord,
   vec2 dirNorm = normalize(sourceToCoord);
   float cosAngle = dot(dirNorm, rayRefDirection);
 
-  float distortedAngle = cosAngle + distortion * sin(iTime * 2.0 + length(sourceToCoord) * 0.01) * 0.2;
+  float distortedAngle = cosAngle + distortion * sin(iTime * 1.0 + length(sourceToCoord) * 0.01) * 0.2;
   
   float spreadFactor = pow(max(distortedAngle, 0.0), 1.0 / max(lightSpread, 0.001));
 
