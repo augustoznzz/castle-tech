@@ -4,11 +4,9 @@ import { ProductGridClient } from './product-grid-client'
 
 export function ProductGrid() {
   return (
-    <section className="section-padding bg-gradient-to-b from-background to-border/10 relative">
-      {/* Fade in effect at top */}
-      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-background to-transparent pointer-events-none z-10" />
+    <section className="section-padding relative">
       
-      <div className="container relative z-20">
+      <div className="container relative z-10">
         <div className="text-center mb-16">
           <h2 className="heading-lg mb-4">
             Planos em Destaque

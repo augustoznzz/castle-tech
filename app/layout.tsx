@@ -112,7 +112,7 @@ export default function RootLayout({
                   mouseInfluence={0}
                   noiseAmount={0.02}
                   distortion={0.02}
-                  fadeDistance={1.2}
+                  fadeDistance={1.5}
                   style={{ width: '100%', height: '100%' }}
                 />
               </div>
