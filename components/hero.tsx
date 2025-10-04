@@ -2,18 +2,11 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
 import { HeroAnimations } from './hero-animations'
-import dynamic from 'next/dynamic'
-const LightRays = dynamic(() => import('./LightRays'), { ssr: false })
 import { AnimatedCounter } from './animated-counter'
 
 export function Hero() {
   return (
     <section className="relative min-h-screen flex items-start justify-center overflow-hidden pt-28">
-      {/* Background gradient removed to let LightRays show uniformly from top */}
-      {/* Rays now span the whole page via layout background */}
-      
-      
-      
       <div className="container relative z-10">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-start">
           {/* Content */}
