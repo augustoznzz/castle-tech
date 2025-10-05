@@ -61,9 +61,11 @@ export default function ContactForm() {
           <input
             type="text"
             id="firstName"
+            name="firstName"
+            autoComplete="given-name"
             value={state.firstName}
             onChange={(e) => setState({ ...state, firstName: e.target.value })}
-            className="w-full px-4 py-3 rounded-lg bg-border/20 border border-border text-foreground placeholder-muted focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+            className="block w-full px-4 py-3 rounded-lg bg-border/20 border border-border text-foreground placeholder-muted focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
             placeholder="Seu nome"
             required
           />
@@ -75,9 +77,11 @@ export default function ContactForm() {
           <input
             type="text"
             id="lastName"
+            name="lastName"
+            autoComplete="family-name"
             value={state.lastName}
             onChange={(e) => setState({ ...state, lastName: e.target.value })}
-            className="w-full px-4 py-3 rounded-lg bg-border/20 border border-border text-foreground placeholder-muted focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+            className="block w-full px-4 py-3 rounded-lg bg-border/20 border border-border text-foreground placeholder-muted focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
             placeholder="Seu sobrenome"
           />
         </div>
@@ -90,9 +94,12 @@ export default function ContactForm() {
         <input
           type="email"
           id="email"
+          name="email"
+          autoComplete="email"
+          inputMode="email"
           value={state.email}
           onChange={(e) => setState({ ...state, email: e.target.value })}
-          className="w-full px-4 py-3 rounded-lg bg-border/20 border border-border text-foreground placeholder-muted focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+          className="block w-full px-4 py-3 rounded-lg bg-border/20 border border-border text-foreground placeholder-muted focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
           placeholder="Seu melhor e-mail"
           required
         />
@@ -104,11 +111,15 @@ export default function ContactForm() {
         </label>
         <select
           id="subject"
+          name="subject"
           value={state.subject}
           onChange={(e) => setState({ ...state, subject: e.target.value })}
-          className="w-full px-4 py-3 rounded-lg border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
-          style={{ backgroundColor: '#1A1A1A' }}
+          required
+          className="block w-full px-4 py-3 rounded-lg border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent select-dark bg-border/20 appearance-none"
         >
+          <option value="" disabled>
+            Selecione um assunto
+          </option>
           <option value="general">Dúvida geral</option>
           <option value="support">Suporte pós compra</option>
           <option value="other">Outro</option>
@@ -121,10 +132,12 @@ export default function ContactForm() {
         </label>
         <textarea
           id="message"
+          name="message"
           rows={6}
+          autoComplete="off"
           value={state.message}
           onChange={(e) => setState({ ...state, message: e.target.value })}
-          className="w-full px-4 py-3 rounded-lg bg-border/20 border border-border text-foreground placeholder-muted focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent resize-none"
+          className="block w-full px-4 py-3 rounded-lg bg-border/20 border border-border text-foreground placeholder-muted focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent resize-none"
           placeholder="Conte como podemos ajudar você..."
           required
         />

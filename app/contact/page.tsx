@@ -22,13 +22,13 @@ export default function ContactPage() {
 
         <div className="grid lg:grid-cols-2 gap-16">
           {/* Formulário de Contato */}
-          <div className="space-y-8 bg-surface rounded-2xl p-1">
+          <div className="space-y-8 rounded-2xl p-6 sm:p-8 squares-exclude border border-border overflow-hidden col-span-full lg:col-span-1 w-full h-full flex flex-col justify-stretch">
             <h2 className="heading-md">Envie uma mensagem</h2>
             <ContactForm />
           </div>
 
           {/* Informações de Contato */}
-          <div className="space-y-8 squares-exclude">
+          <div className="space-y-8 rounded-2xl p-6 sm:p-8 squares-exclude border border-border overflow-hidden">
             <h2 className="heading-md">Entre em contato</h2>
             
             <div className="space-y-6">

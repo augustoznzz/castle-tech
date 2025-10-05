@@ -4,12 +4,13 @@
 
 @layer base {
   :root {
-    --background: 23 23 23;
+    --background: 23 23 23; /* #171717 soft dark */
     --foreground: 245 245 245;
     --muted: 163 163 163;
     --accent: 34 211 238;
     --border: 38 38 38;
     --border-hover: 64 64 64;
+    --surface: 26 26 26; /* Opaque surface for cards */
   }
 
   * {
@@ -64,6 +65,11 @@
 
   .section-padding {
     @apply py-16 sm:py-20 lg:py-24;
+  }
+
+  /* Surface card background for forms/sections (opaque) */
+  .bg-surface {
+    background-color: rgb(var(--surface));
   }
 
   /* Button variants */
