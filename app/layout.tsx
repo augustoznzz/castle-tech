@@ -117,7 +117,7 @@ export default function RootLayout({
                 {children}
               </main>
             </div>
-            <footer className="border-t border-border/40 py-6 text-center text-sm text-muted-foreground">
+            <footer className="border-t border-border/40 py-6 text-center text-sm text-muted-foreground bg-[#171717]">
               © 2025 Castle Tech. Todos os direitos reservados.
             </footer>
           </div>

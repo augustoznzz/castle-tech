@@ -31,6 +31,9 @@ export function Squares({
   const excludedElementsRef = useRef<HTMLElement[]>([])
   const excludeRectsRef = useRef<Array<{ x: number; y: number; w: number; h: number }>>([])
   const inViewRef = useRef<boolean>(true)
+  const lastFrameTimeRef = useRef<number>(0)
+  const frameAccumulatorRef = useRef<number>(0)
+  const targetFpsRef = useRef<number>(60)
   const [hoveredSquare, setHoveredSquare] = useState<{
     x: number
     y: number
@@ -41,8 +44,9 @@ export function Squares({
     const computeResponsiveSize = () => {
       const w = typeof window !== 'undefined' ? window.innerWidth : 1280
       let size = squareSize
-      if (w < 640) size = Math.max(16, Math.round(squareSize * 0.6))
-      else if (w < 1024) size = Math.max(20, Math.round(squareSize * 0.8))
+      // On smaller screens, increase square size to reduce draw workload
+      if (w < 640) size = Math.min(72, Math.max(24, Math.round(squareSize * 1.4)))
+      else if (w < 1024) size = Math.min(64, Math.max(22, Math.round(squareSize * 1.15)))
       else size = squareSize
       setEffectiveSquareSize(size)
     }
@@ -68,7 +72,10 @@ export function Squares({
     canvas.style.opacity = "0.2"
 
     const resizeCanvas = () => {
-      const dpr = Math.max(1, window.devicePixelRatio || 1)
+      const isSmall = (typeof window !== 'undefined') && window.innerWidth <= 768
+      const deviceDpr = Math.max(1, window.devicePixelRatio || 1)
+      const maxDpr = isSmall ? 1.25 : 2 // clamp DPR on mobile to lower GPU cost
+      const dpr = Math.min(deviceDpr, maxDpr)
       const cssWidth = canvas.offsetWidth
       const cssHeight = canvas.offsetHeight
       canvas.width = Math.max(1, Math.round(cssWidth * dpr))
@@ -134,6 +141,9 @@ export function Squares({
     collectExcluded()
     updateExcludeRects()
 
+    // Choose a slightly lower FPS target on small screens for smoother perceived motion with less cost
+    targetFpsRef.current = (typeof window !== 'undefined' && window.innerWidth <= 768) ? 45 : 60
+
     let scheduled = false
     const scheduleRectsUpdate = () => {
       if (scheduled) return
@@ -195,35 +205,51 @@ export function Squares({
       }
     }
 
-    const updateAnimation = () => {
-      const effectiveSpeed = Math.max(speed, 0.1)
+    const updateAnimation = (time: number) => {
+      const minSpeed = 0.1
+      const effectiveSpeed = Math.max(speed, minSpeed)
+      const baselineFrameMs = 1000 / 60 // scale movement to be per-60fps frame
+
+      if (!lastFrameTimeRef.current) {
+        lastFrameTimeRef.current = time
+      }
+      const deltaMs = time - lastFrameTimeRef.current
+      lastFrameTimeRef.current = time
+      frameAccumulatorRef.current += deltaMs
+
+      const moveUnits = effectiveSpeed * (deltaMs / baselineFrameMs)
 
       switch (direction) {
         case "right":
           gridOffset.current.x =
-            (gridOffset.current.x - effectiveSpeed + effectiveSquareSize) % effectiveSquareSize
+            (gridOffset.current.x - moveUnits + effectiveSquareSize) % effectiveSquareSize
           break
         case "left":
           gridOffset.current.x =
-            (gridOffset.current.x + effectiveSpeed + effectiveSquareSize) % effectiveSquareSize
+            (gridOffset.current.x + moveUnits + effectiveSquareSize) % effectiveSquareSize
           break
         case "up":
           gridOffset.current.y =
-            (gridOffset.current.y + effectiveSpeed + effectiveSquareSize) % effectiveSquareSize
+            (gridOffset.current.y + moveUnits + effectiveSquareSize) % effectiveSquareSize
           break
         case "down":
           gridOffset.current.y =
-            (gridOffset.current.y - effectiveSpeed + effectiveSquareSize) % effectiveSquareSize
+            (gridOffset.current.y - moveUnits + effectiveSquareSize) % effectiveSquareSize
           break
         case "diagonal":
           gridOffset.current.x =
-            (gridOffset.current.x - effectiveSpeed + effectiveSquareSize) % effectiveSquareSize
+            (gridOffset.current.x - moveUnits + effectiveSquareSize) % effectiveSquareSize
           gridOffset.current.y =
-            (gridOffset.current.y - effectiveSpeed + effectiveSquareSize) % effectiveSquareSize
+            (gridOffset.current.y - moveUnits + effectiveSquareSize) % effectiveSquareSize
           break
       }
 
-      drawGrid()
+      const frameInterval = 1000 / targetFpsRef.current
+      if (frameAccumulatorRef.current >= frameInterval) {
+        // Keep remainder to stay in sync over time
+        frameAccumulatorRef.current = frameAccumulatorRef.current % frameInterval
+        drawGrid()
+      }
       requestRef.current = requestAnimationFrame(updateAnimation)
     }
 
@@ -273,6 +299,21 @@ export function Squares({
     }, { root: null, threshold: 0 })
     observer.observe(canvas)
 
+    // Pause when tab not visible
+    const handleVisibility = () => {
+      if (document.visibilityState === 'hidden') {
+        if (requestRef.current) {
+          cancelAnimationFrame(requestRef.current)
+          requestRef.current = undefined
+        }
+      } else if (inViewRef.current && !requestRef.current) {
+        lastFrameTimeRef.current = 0
+        frameAccumulatorRef.current = 0
+        requestRef.current = requestAnimationFrame(updateAnimation)
+      }
+    }
+    document.addEventListener('visibilitychange', handleVisibility)
+
     // Start animation if in view initially
     requestRef.current = requestAnimationFrame(updateAnimation)
 
@@ -280,6 +321,7 @@ export function Squares({
     return () => {
       window.removeEventListener("resize", resizeCanvas)
       window.removeEventListener('scroll', scheduleRectsUpdate)
+      document.removeEventListener('visibilitychange', handleVisibility)
       if (!isTouch) {
         canvas.removeEventListener("mousemove", handleMouseMove)
         canvas.removeEventListener("mouseleave", handleMouseLeave)
