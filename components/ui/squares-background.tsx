@@ -27,6 +27,10 @@ export function Squares({
   const numSquaresY = useRef<number>()
   const gridOffset = useRef({ x: 0, y: 0 })
   const [effectiveSquareSize, setEffectiveSquareSize] = useState<number>(squareSize)
+  const patternRef = useRef<CanvasPattern | null>(null)
+  const excludedElementsRef = useRef<HTMLElement[]>([])
+  const excludeRectsRef = useRef<Array<{ x: number; y: number; w: number; h: number }>>([])
+  const inViewRef = useRef<boolean>(true)
   const [hoveredSquare, setHoveredSquare] = useState<{
     x: number
     y: number
@@ -74,65 +78,120 @@ export function Squares({
       numSquaresY.current = Math.ceil(cssHeight / effectiveSquareSize) + 1
     }
 
+    // Pre-render a pattern tile to reduce per-frame work
+    const buildPattern = () => {
+      const size = Math.max(4, Math.floor(effectiveSquareSize))
+      const tile = document.createElement('canvas')
+      tile.width = size
+      tile.height = size
+      const tctx = tile.getContext('2d')
+      if (!tctx) return
+      tctx.clearRect(0, 0, size, size)
+      tctx.strokeStyle = borderColor
+      tctx.lineWidth = 0.5
+      // draw top and left borders to form a grid when repeated
+      tctx.beginPath()
+      tctx.moveTo(0.5, 0)
+      tctx.lineTo(0.5, size)
+      tctx.moveTo(0, 0.5)
+      tctx.lineTo(size, 0.5)
+      tctx.stroke()
+      patternRef.current = ctx.createPattern(tile, 'repeat')
+    }
+
+    // Cache excluded elements and compute their rects relative to canvas
+    const collectExcluded = () => {
+      excludedElementsRef.current = []
+      if (excludeSelectors && excludeSelectors.length > 0) {
+        excludeSelectors.forEach((selector) => {
+          document.querySelectorAll(selector).forEach((el) => {
+            excludedElementsRef.current.push(el as HTMLElement)
+          })
+        })
+      }
+    }
+
+    const updateExcludeRects = () => {
+      const pad = 8
+      const canvasRect = canvas.getBoundingClientRect()
+      const rects: Array<{ x: number; y: number; w: number; h: number }> = []
+      excludedElementsRef.current.forEach((el) => {
+        const rect = el.getBoundingClientRect()
+        const x = Math.floor(Math.max(0, rect.left - canvasRect.left - pad))
+        const y = Math.floor(Math.max(0, rect.top - canvasRect.top - pad))
+        const right = Math.ceil(Math.min(canvas.width, rect.right - canvasRect.left + pad))
+        const bottom = Math.ceil(Math.min(canvas.height, rect.bottom - canvasRect.top + pad))
+        const w = Math.max(0, right - x)
+        const h = Math.max(0, bottom - y)
+        if (w > 0 && h > 0) rects.push({ x, y, w, h })
+      })
+      excludeRectsRef.current = rects
+    }
+
     window.addEventListener("resize", resizeCanvas)
     resizeCanvas()
+    buildPattern()
+    collectExcluded()
+    updateExcludeRects()
+
+    let scheduled = false
+    const scheduleRectsUpdate = () => {
+      if (scheduled) return
+      scheduled = true
+      requestAnimationFrame(() => {
+        scheduled = false
+        updateExcludeRects()
+      })
+    }
+    window.addEventListener('scroll', scheduleRectsUpdate, { passive: true })
 
     const drawGrid = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-      const startX = Math.floor(gridOffset.current.x / effectiveSquareSize) * effectiveSquareSize
-      const startY = Math.floor(gridOffset.current.y / effectiveSquareSize) * effectiveSquareSize
-
-      ctx.lineWidth = 0.5
-
-      for (let x = startX; x < canvas.width + effectiveSquareSize; x += effectiveSquareSize) {
-        for (let y = startY; y < canvas.height + effectiveSquareSize; y += effectiveSquareSize) {
-          const squareX = x - (gridOffset.current.x % effectiveSquareSize)
-          const squareY = y - (gridOffset.current.y % effectiveSquareSize)
-
-          if (
-            hoveredSquare &&
-            Math.floor((x - startX) / effectiveSquareSize) === hoveredSquare.x &&
-            Math.floor((y - startY) / effectiveSquareSize) === hoveredSquare.y
-          ) {
-            ctx.fillStyle = hoverFillColor
-            ctx.fillRect(squareX, squareY, effectiveSquareSize, effectiveSquareSize)
-          }
-
-          ctx.strokeStyle = borderColor
-          ctx.strokeRect(squareX, squareY, effectiveSquareSize, effectiveSquareSize)
+      const cssWidth1 = canvas.clientWidth || canvas.width
+      const cssHeight1 = canvas.clientHeight || canvas.height
+      const offX = - (gridOffset.current.x % effectiveSquareSize)
+      const offY = - (gridOffset.current.y % effectiveSquareSize)
+      if (patternRef.current) {
+        const pattern = patternRef.current as CanvasPattern & { setTransform?: (m: DOMMatrix) => void }
+        if (typeof pattern.setTransform === 'function') {
+          pattern.setTransform(new DOMMatrix().translate(offX, offY))
+          ctx.fillStyle = pattern
+          ctx.fillRect(0, 0, cssWidth1, cssHeight1)
+        } else {
+          ctx.save()
+          ctx.translate(offX, offY)
+          ctx.fillStyle = pattern
+          ctx.fillRect(0, 0, cssWidth1 - offX, cssHeight1 - offY)
+          ctx.restore()
         }
       }
 
+      // Optional hover highlight (skip on touch to save work)
+      const isTouch = 'ontouchstart' in window
+      if (!isTouch && hoveredSquare) {
+        const startX = Math.floor(gridOffset.current.x / effectiveSquareSize) * effectiveSquareSize
+        const startY = Math.floor(gridOffset.current.y / effectiveSquareSize) * effectiveSquareSize
+        const squareX = (hoveredSquare.x * effectiveSquareSize) - (gridOffset.current.x - startX)
+        const squareY = (hoveredSquare.y * effectiveSquareSize) - (gridOffset.current.y - startY)
+        ctx.fillStyle = hoverFillColor
+        ctx.fillRect(squareX, squareY, effectiveSquareSize, effectiveSquareSize)
+      }
+
       // Use CSS pixel dimensions for gradients to avoid DPR/zoom seams
-      const cssWidth = canvas.clientWidth || canvas.width
-      const cssHeight = canvas.clientHeight || canvas.height
+      const cssWidth2 = canvas.clientWidth || canvas.width
+      const cssHeight2 = canvas.clientHeight || canvas.height
       // No solid/gradient background fill — canvas stays transparent
 
-      // Exclude areas (e.g., forms, photo cards) by painting over with the base background
-      if (excludeSelectors && excludeSelectors.length > 0) {
-        const canvasRect = canvas.getBoundingClientRect()
-        // Erase grid under excluded elements to make canvas fully transparent there
-        excludeSelectors.forEach((selector) => {
-          document.querySelectorAll(selector).forEach((el) => {
-            const rect = (el as HTMLElement).getBoundingClientRect()
-            // Expand mask to avoid subpixel gaps at edges (browser zoom / DPR rounding)
-            const pad = 8 // CSS pixels
-            const x = Math.floor(Math.max(0, rect.left - canvasRect.left - pad))
-            const y = Math.floor(Math.max(0, rect.top - canvasRect.top - pad))
-            const right = Math.ceil(Math.min(canvas.width, rect.right - canvasRect.left + pad))
-            const bottom = Math.ceil(Math.min(canvas.height, rect.bottom - canvasRect.top + pad))
-            const w = Math.max(0, right - x)
-            const h = Math.max(0, bottom - y)
-            if (w > 0 && h > 0) {
-              ctx.save()
-              ctx.globalCompositeOperation = 'destination-out'
-              ctx.fillStyle = 'rgba(0,0,0,1)'
-              ctx.fillRect(x, y, w, h)
-              ctx.restore()
-            }
-          })
-        })
+      // Exclude areas using cached rectangles (erase grid under cards)
+      if (excludeRectsRef.current.length > 0) {
+        ctx.save()
+        ctx.globalCompositeOperation = 'destination-out'
+        ctx.fillStyle = 'rgba(0,0,0,1)'
+        for (const r of excludeRectsRef.current) {
+          ctx.fillRect(r.x, r.y, r.w, r.h)
+        }
+        ctx.restore()
       }
     }
 
@@ -192,23 +251,45 @@ export function Squares({
 
     // Event listeners
     window.addEventListener("resize", resizeCanvas)
-    canvas.addEventListener("mousemove", handleMouseMove)
-    canvas.addEventListener("mouseleave", handleMouseLeave)
+    const isTouch = 'ontouchstart' in window
+    if (!isTouch) {
+      canvas.addEventListener("mousemove", handleMouseMove)
+      canvas.addEventListener("mouseleave", handleMouseLeave)
+    }
 
     // Initial setup
     resizeCanvas()
+
+    // IntersectionObserver to pause when offscreen
+    const observer = new IntersectionObserver((entries) => {
+      const entry = entries[0]
+      inViewRef.current = entry.isIntersecting
+      if (entry.isIntersecting) {
+        if (!requestRef.current) requestRef.current = requestAnimationFrame(updateAnimation)
+      } else if (requestRef.current) {
+        cancelAnimationFrame(requestRef.current)
+        requestRef.current = undefined
+      }
+    }, { root: null, threshold: 0 })
+    observer.observe(canvas)
+
+    // Start animation if in view initially
     requestRef.current = requestAnimationFrame(updateAnimation)
 
     // Cleanup
     return () => {
       window.removeEventListener("resize", resizeCanvas)
-      canvas.removeEventListener("mousemove", handleMouseMove)
-      canvas.removeEventListener("mouseleave", handleMouseLeave)
+      window.removeEventListener('scroll', scheduleRectsUpdate)
+      if (!isTouch) {
+        canvas.removeEventListener("mousemove", handleMouseMove)
+        canvas.removeEventListener("mouseleave", handleMouseLeave)
+      }
+      observer.disconnect()
       if (requestRef.current) {
         cancelAnimationFrame(requestRef.current)
       }
     }
-  }, [direction, speed, borderColor, hoverFillColor, hoveredSquare, squareSize, excludeSelectors])
+  }, [direction, speed, borderColor, hoverFillColor, effectiveSquareSize, excludeSelectors])
 
   return (
     <canvas

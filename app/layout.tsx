@@ -103,7 +103,7 @@ export default function RootLayout({
               <ClientOnly>
               <Squares 
                   direction="diagonal" 
-                  speed={0.3} 
+                  speed={0.25} 
                   squareSize={40} 
                   borderColor="#22D3EE" 
                   hoverFillColor="#22D3EE" 
