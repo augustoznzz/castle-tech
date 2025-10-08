@@ -10,6 +10,7 @@ interface SquaresProps {
   hoverFillColor?: string
   className?: string
   excludeSelectors?: string[]
+  animate?: boolean
 }
 
 export function Squares({
@@ -20,6 +21,7 @@ export function Squares({
   hoverFillColor = "#222",
   className,
   excludeSelectors = [".bg-surface"],
+  animate = true,
 }: SquaresProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const requestRef = useRef<number>()
@@ -222,29 +224,31 @@ export function Squares({
 
       const moveUnits = effectiveSpeed * (deltaMs / baselineFrameMs)
 
-      switch (direction) {
-        case "right":
-          gridOffset.current.x =
-            (gridOffset.current.x - moveUnits + effectiveSquareSize) % effectiveSquareSize
-          break
-        case "left":
-          gridOffset.current.x =
-            (gridOffset.current.x + moveUnits + effectiveSquareSize) % effectiveSquareSize
-          break
-        case "up":
-          gridOffset.current.y =
-            (gridOffset.current.y + moveUnits + effectiveSquareSize) % effectiveSquareSize
-          break
-        case "down":
-          gridOffset.current.y =
-            (gridOffset.current.y - moveUnits + effectiveSquareSize) % effectiveSquareSize
-          break
-        case "diagonal":
-          gridOffset.current.x =
-            (gridOffset.current.x - moveUnits + effectiveSquareSize) % effectiveSquareSize
-          gridOffset.current.y =
-            (gridOffset.current.y - moveUnits + effectiveSquareSize) % effectiveSquareSize
-          break
+      if (animate) {
+        switch (direction) {
+          case "right":
+            gridOffset.current.x =
+              (gridOffset.current.x - moveUnits + effectiveSquareSize) % effectiveSquareSize
+            break
+          case "left":
+            gridOffset.current.x =
+              (gridOffset.current.x + moveUnits + effectiveSquareSize) % effectiveSquareSize
+            break
+          case "up":
+            gridOffset.current.y =
+              (gridOffset.current.y + moveUnits + effectiveSquareSize) % effectiveSquareSize
+            break
+          case "down":
+            gridOffset.current.y =
+              (gridOffset.current.y - moveUnits + effectiveSquareSize) % effectiveSquareSize
+            break
+          case "diagonal":
+            gridOffset.current.x =
+              (gridOffset.current.x - moveUnits + effectiveSquareSize) % effectiveSquareSize
+            gridOffset.current.y =
+              (gridOffset.current.y - moveUnits + effectiveSquareSize) % effectiveSquareSize
+            break
+        }
       }
 
       const frameInterval = 1000 / targetFpsRef.current
@@ -317,19 +321,27 @@ export function Squares({
     }
     document.addEventListener('visibilitychange', handleVisibility)
 
-    // Start animation loop
-    requestRef.current = requestAnimationFrame(updateAnimation)
+    // Start animation loop (still draw once when not animating)
+    if (animate) {
+      requestRef.current = requestAnimationFrame(updateAnimation)
+    } else {
+      // Single draw to render a fixed grid
+      drawGrid()
+    }
 
-    // Fallback interval to advance animation if rAF is heavily throttled on mobile
-    // This keeps movement continuous even when rAF stalls due to browser heuristics
-    const fallbackHz = 8
-    fallbackIntervalRef.current = window.setInterval(() => {
-      const now = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now()
-      // If rAF has not ticked recently, drive an update manually
-      if (now - lastFrameTimeRef.current > 250) {
-        updateAnimation(now)
-      }
-    }, Math.round(1000 / fallbackHz)) as unknown as number
+    // Fallback interval only if animating
+    if (animate) {
+      // Fallback interval to advance animation if rAF is heavily throttled on mobile
+      // This keeps movement continuous even when rAF stalls due to browser heuristics
+      const fallbackHz = 8
+      fallbackIntervalRef.current = window.setInterval(() => {
+        const now = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now()
+        // If rAF has not ticked recently, drive an update manually
+        if (now - lastFrameTimeRef.current > 250) {
+          updateAnimation(now)
+        }
+      }, Math.round(1000 / fallbackHz)) as unknown as number
+    }
 
     // Cleanup
     return () => {
