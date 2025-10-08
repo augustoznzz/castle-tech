@@ -11,6 +11,11 @@ interface SquaresProps {
   className?: string
   excludeSelectors?: string[]
   animate?: boolean
+  // Optional horizontal band [0..1] positions; if provided, a solid fill band will be
+  // rendered between these normalized Y positions (relative to the canvas height).
+  bandStart?: number
+  bandEnd?: number
+  bandColor?: string
 }
 
 export function Squares({
@@ -22,6 +27,9 @@ export function Squares({
   className,
   excludeSelectors = [".bg-surface"],
   animate = true,
+  bandStart,
+  bandEnd,
+  bandColor = "#171717",
 }: SquaresProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const requestRef = useRef<number>()
@@ -165,6 +173,24 @@ export function Squares({
       const cssHeight1 = canvas.clientHeight || canvas.height
       const offX = - (gridOffset.current.x % effectiveSquareSize)
       const offY = - (gridOffset.current.y % effectiveSquareSize)
+      // Use CSS pixel dimensions for band calculations to avoid DPR/zoom seams
+
+      // Draw the solid band background first (behind the grid)
+      if (typeof bandStart === 'number' && typeof bandEnd === 'number') {
+        const startNorm = Math.max(0, Math.min(1, Math.min(bandStart, bandEnd)))
+        const endNorm = Math.max(0, Math.min(1, Math.max(bandStart, bandEnd)))
+        const yStart = Math.round(startNorm * cssHeight1)
+        const yEnd = Math.round(endNorm * cssHeight1)
+        const height = Math.max(0, yEnd - yStart)
+        if (height > 0) {
+          ctx.save()
+          ctx.globalCompositeOperation = 'source-over'
+          ctx.fillStyle = bandColor
+          ctx.fillRect(0, yStart, cssWidth1, height)
+          ctx.restore()
+        }
+      }
+
       if (patternRef.current) {
         const pattern = patternRef.current as CanvasPattern & { setTransform?: (m: any) => void }
         const hasDomMatrix = typeof (window as any).DOMMatrix === 'function'
@@ -182,6 +208,8 @@ export function Squares({
         }
       }
 
+      // (Band already drawn behind grid above)
+
       // Optional hover highlight (skip on touch to save work)
       const isTouch = 'ontouchstart' in window
       if (!isTouch && hoveredSquare) {
@@ -193,10 +221,7 @@ export function Squares({
         ctx.fillRect(squareX, squareY, effectiveSquareSize, effectiveSquareSize)
       }
 
-      // Use CSS pixel dimensions for gradients to avoid DPR/zoom seams
-      const cssWidth2 = canvas.clientWidth || canvas.width
-      const cssHeight2 = canvas.clientHeight || canvas.height
-      // No solid/gradient background fill — canvas stays transparent
+      // (Band already drawn behind grid above)
 
       // Exclude areas using cached rectangles (erase grid under cards)
       if (excludeRectsRef.current.length > 0) {
@@ -361,7 +386,7 @@ export function Squares({
         cancelAnimationFrame(requestRef.current)
       }
     }
-  }, [direction, speed, borderColor, hoverFillColor, effectiveSquareSize, excludeSelectors])
+  }, [direction, speed, borderColor, hoverFillColor, effectiveSquareSize, excludeSelectors, bandStart, bandEnd, bandColor])
 
   return (
     <canvas
