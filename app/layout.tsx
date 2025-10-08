@@ -107,7 +107,8 @@ export default function RootLayout({
                   squareSize={40} 
                   borderColor="#22D3EE" 
                   hoverFillColor="#22D3EE" 
-                excludeSelectors={[".bg-surface", ".squares-exclude"]}
+                  animate={false}
+                  excludeSelectors={[".bg-surface", ".squares-exclude"]}
                 />
               </ClientOnly>
             </div>
