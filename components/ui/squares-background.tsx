@@ -286,16 +286,14 @@ export function Squares({
     // Initial setup
     resizeCanvas()
 
-    // IntersectionObserver to pause when offscreen
+    // IntersectionObserver to adjust target FPS rather than stopping the loop
     const observer = new IntersectionObserver((entries) => {
       const entry = entries[0]
       inViewRef.current = entry.isIntersecting
-      if (entry.isIntersecting) {
-        if (!requestRef.current) requestRef.current = requestAnimationFrame(updateAnimation)
-      } else if (requestRef.current) {
-        cancelAnimationFrame(requestRef.current)
-        requestRef.current = undefined
-      }
+      // Lower FPS when offscreen to save battery but keep movement continuous
+      targetFpsRef.current = entry.isIntersecting
+        ? ((typeof window !== 'undefined' && window.innerWidth <= 768) ? 45 : 60)
+        : 20
     }, { root: null, threshold: 0 })
     observer.observe(canvas)
 
