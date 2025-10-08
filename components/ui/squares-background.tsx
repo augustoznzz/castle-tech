@@ -163,16 +163,18 @@ export function Squares({
       const offX = - (gridOffset.current.x % effectiveSquareSize)
       const offY = - (gridOffset.current.y % effectiveSquareSize)
       if (patternRef.current) {
-        const pattern = patternRef.current as CanvasPattern & { setTransform?: (m: DOMMatrix) => void }
-        if (typeof pattern.setTransform === 'function') {
-          pattern.setTransform(new DOMMatrix().translate(offX, offY))
+        const pattern = patternRef.current as CanvasPattern & { setTransform?: (m: any) => void }
+        const hasDomMatrix = typeof (window as any).DOMMatrix === 'function'
+        if (typeof pattern.setTransform === 'function' && hasDomMatrix) {
+          pattern.setTransform(new (window as any).DOMMatrix().translate(offX, offY))
           ctx.fillStyle = pattern
           ctx.fillRect(0, 0, cssWidth1, cssHeight1)
         } else {
+          // Fallback path if DOMMatrix or setTransform is unavailable
           ctx.save()
           ctx.translate(offX, offY)
           ctx.fillStyle = pattern
-          ctx.fillRect(0, 0, cssWidth1 - offX, cssHeight1 - offY)
+          ctx.fillRect(-offX, -offY, cssWidth1 + Math.abs(offX), cssHeight1 + Math.abs(offY))
           ctx.restore()
         }
       }
@@ -300,20 +302,31 @@ export function Squares({
     // Pause when tab not visible
     const handleVisibility = () => {
       if (document.visibilityState === 'hidden') {
-        if (requestRef.current) {
-          cancelAnimationFrame(requestRef.current)
-          requestRef.current = undefined
-        }
-      } else if (inViewRef.current && !requestRef.current) {
+        // Keep the loop alive but lower FPS to save battery
+        targetFpsRef.current = 15
+      } else {
+        // Restore FPS and time baselines
+        targetFpsRef.current = (typeof window !== 'undefined' && window.innerWidth <= 768) ? 45 : 60
         lastFrameTimeRef.current = 0
         frameAccumulatorRef.current = 0
-        requestRef.current = requestAnimationFrame(updateAnimation)
+        if (!requestRef.current) {
+          requestRef.current = requestAnimationFrame(updateAnimation)
+        }
       }
     }
     document.addEventListener('visibilitychange', handleVisibility)
 
-    // Start animation if in view initially
+    // Start animation loop
     requestRef.current = requestAnimationFrame(updateAnimation)
+
+    // Watchdog to ensure the loop never dies on mobile timer throttling
+    const watchdogId = window.setInterval(() => {
+      if (!requestRef.current) {
+        lastFrameTimeRef.current = 0
+        frameAccumulatorRef.current = 0
+        requestRef.current = requestAnimationFrame(updateAnimation)
+      }
+    }, 2000)
 
     // Cleanup
     return () => {
@@ -325,6 +338,7 @@ export function Squares({
         canvas.removeEventListener("mouseleave", handleMouseLeave)
       }
       observer.disconnect()
+      window.clearInterval(watchdogId)
       if (requestRef.current) {
         cancelAnimationFrame(requestRef.current)
       }
