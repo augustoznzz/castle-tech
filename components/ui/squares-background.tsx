@@ -34,6 +34,7 @@ export function Squares({
   const lastFrameTimeRef = useRef<number>(0)
   const frameAccumulatorRef = useRef<number>(0)
   const targetFpsRef = useRef<number>(60)
+  const fallbackIntervalRef = useRef<number | undefined>(undefined)
   const [hoveredSquare, setHoveredSquare] = useState<{
     x: number
     y: number
@@ -319,14 +320,16 @@ export function Squares({
     // Start animation loop
     requestRef.current = requestAnimationFrame(updateAnimation)
 
-    // Watchdog to ensure the loop never dies on mobile timer throttling
-    const watchdogId = window.setInterval(() => {
-      if (!requestRef.current) {
-        lastFrameTimeRef.current = 0
-        frameAccumulatorRef.current = 0
-        requestRef.current = requestAnimationFrame(updateAnimation)
+    // Fallback interval to advance animation if rAF is heavily throttled on mobile
+    // This keeps movement continuous even when rAF stalls due to browser heuristics
+    const fallbackHz = 8
+    fallbackIntervalRef.current = window.setInterval(() => {
+      const now = (typeof performance !== 'undefined' && performance.now) ? performance.now() : Date.now()
+      // If rAF has not ticked recently, drive an update manually
+      if (now - lastFrameTimeRef.current > 250) {
+        updateAnimation(now)
       }
-    }, 2000)
+    }, Math.round(1000 / fallbackHz)) as unknown as number
 
     // Cleanup
     return () => {
@@ -338,7 +341,10 @@ export function Squares({
         canvas.removeEventListener("mouseleave", handleMouseLeave)
       }
       observer.disconnect()
-      window.clearInterval(watchdogId)
+      if (fallbackIntervalRef.current !== undefined) {
+        window.clearInterval(fallbackIntervalRef.current as number)
+        fallbackIntervalRef.current = undefined
+      }
       if (requestRef.current) {
         cancelAnimationFrame(requestRef.current)
       }
