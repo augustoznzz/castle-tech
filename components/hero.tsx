@@ -44,7 +44,7 @@ export function Hero() {
                <div className="text-center">
                  <div className="text-sm text-muted mb-1">Clientes satisfeitos</div>
                  <AnimatedCounter 
-                  value="320" 
+                  value="300" 
                   suffix="+"
                    className="text-2xl font-bold text-accent" 
                    duration={2.5}
