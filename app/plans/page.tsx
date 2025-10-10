@@ -4,14 +4,8 @@ import CardFlip from '@/components/card-flip'
 export default function PlansPage() {
   return (
     <div className="min-h-screen pt-20">
-      <div className="w-full section-padding relative">
-        {/* Background rectangle */}
-        <div 
-            className="absolute top-16 left-1/2 transform -translate-x-1/2 w-full h-5/6 bg-[#171717] rounded-lg shadow-[0px_4px_4px_#171717,0px_-4px_4px_#171717] z-0"
-        />
-        
-        <div className="relative z-10">
-          <div className="text-center mb-12">
+      <div className="container section-padding">
+        <div className="text-center mb-12">
           <h1 className="heading-lg mb-3">Planos</h1>
           <p className="text-body max-w-2xl mx-auto">Escolha o plano que atende às suas necessidades. Vire os cards para explorar os recursos.</p>
         </div>
@@ -71,7 +65,6 @@ export default function PlansPage() {
             price="A partir de R$ 1400"
             ctaHref="/contact"
           />
-        </div>
         </div>
       </div>
     </div>

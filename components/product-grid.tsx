@@ -4,17 +4,8 @@ import { ProductGridClient } from './product-grid-client'
 
 export function ProductGrid() {
   return (
-    <section className="section-padding relative">
-      {/* Background rectangle */}
-      <div 
-        className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-4/5 bg-[#171717] rounded-lg shadow-[0px_4px_4px_#171717,0px_-4px_4px_#171717] z-0
-                   sm:h-3/5
-                   md:h-4/5
-                   lg:h-4/5
-                   xl:h-3/5"
-      />
-      
-      <div className="container relative z-10">
+    <section className="section-padding">
+      <div className="container">
         <div className="text-center mb-16">
           <h2 className="heading-lg mb-4">
             Planos em Destaque
