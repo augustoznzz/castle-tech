@@ -92,7 +92,7 @@ export default function AboutPage() {
             <div className="text-center">
               <div className="text-muted mb-1">Clientes satisfeitos</div>
               <AnimatedCounter 
-                value="320" 
+                value="300" 
                 suffix="+"
                 className="text-3xl font-bold text-accent" 
                 duration={2.5}
