@@ -46,7 +46,7 @@ export function FeaturesSection() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
-          className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8"
+          className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8 items-stretch"
         >
           {features.map((feature, index) => (
             <FeatureCard
