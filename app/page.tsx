@@ -1,4 +1,4 @@
-import { Suspense } from 'react'
+﻿import { Suspense } from 'react'
 import { AnimatedCounter } from '@/components/animated-counter'
 import { Hero } from '@/components/hero'
 import { ProductGrid } from '@/components/product-grid'
@@ -39,7 +39,7 @@ export default function HomePage() {
         <ProductGrid />
       </Suspense>
       <FeaturesSection />
-      {/* Estatísticas finais antes do rodapé */}
+      {/* EstatÃ­sticas finais antes do rodapÃ© */}
       <section className="section-padding">
         <div className="container">
           <div className="bg-gradient-to-r from-accent/5 to-accent/10 rounded-2xl p-12 text-center">
@@ -47,13 +47,13 @@ export default function HomePage() {
               <div className="text-center">
                 <div className="text-muted mb-1">Clientes satisfeitos</div>
                 <AnimatedCounter 
-                  value="320+" 
+                  value="300+" 
                   className="text-3xl font-bold text-accent" 
                   duration={2.5}
                 />
               </div>
               <div className="text-center">
-                <div className="text-muted mb-1">Taxa de satisfação</div>
+                <div className="text-muted mb-1">Taxa de satisfaÃ§Ã£o</div>
                 <AnimatedCounter 
                   value="100%" 
                   className="text-3xl font-bold text-accent" 
@@ -61,7 +61,7 @@ export default function HomePage() {
                 />
               </div>
               <div className="text-center">
-                <div className="text-muted mb-1">Entrega em até</div>
+                <div className="text-muted mb-1">Entrega em atÃ©</div>
                 <AnimatedCounter 
                   value={7} 
                   suffix=" dias"

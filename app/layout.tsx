@@ -5,7 +5,7 @@ import { SiteHeader } from '@/components/site-header'
 import { AccessibilityProvider } from '@/components/accessibility-provider'
 import { PerformanceMonitor } from '@/components/performance-monitor'
 import { SessionManager } from '@/components/session-manager'
-import { Squares } from '@/components/ui/squares-background'
+import { ParticlesBackground } from '@/components/ui/particles-background'
 import { ClientOnly } from '@/components/client-only'
 
 const inter = Inter({ 
@@ -98,17 +98,13 @@ export default function RootLayout({
           <PerformanceMonitor />
           <SessionManager />
           <div className="flex min-h-screen flex-col relative">
-            {/* Global animated background */}
-            <div className="pointer-events-none absolute inset-0 -z-10 opacity-30">
+            {/* Global animated particles background */}
+            <div className="pointer-events-none absolute inset-0 -z-10 opacity-40">
               <ClientOnly>
-              <Squares 
-                  direction="diagonal" 
-                  speed={0.25} 
-                  squareSize={40} 
-                  borderColor="#22D3EE" 
-                  hoverFillColor="#22D3EE" 
-                  animate={false}
-                  excludeSelectors={[".bg-surface", ".squares-exclude"]}
+                <ParticlesBackground 
+                  particleColor="#22D3EE"
+                  density="medium"
+                  speed={0.5}
                 />
               </ClientOnly>
             </div>
